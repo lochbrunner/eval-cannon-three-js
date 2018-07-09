@@ -3,13 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {filename: 'bundle.js', path: path.resolve(__dirname, 'dist')},
   module: {
-    rules: [{
-      test: /\.(bin|gltf)$/,
-      use: {loader: 'file-loader', options: {name: '[path][name].[ext]'}}
-    }]
+    rules: [
+      {
+        test: /\.(bin|gltf)$/,
+        use: {loader: 'file-loader', options: {name: '[path][name].[ext]'}}
+      },
+      {test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/}
+    ]
   },
   devServer:
       {contentBase: path.join(__dirname, 'dist'), compress: true, port: 9000},

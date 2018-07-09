@@ -1,12 +1,17 @@
+/// <reference path="../typings/index.d.ts" />
+
 import * as CANNON from 'cannon';
 import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
 import TrackballControls from 'three-trackballcontrols';
 
-import simple_bin from '../assets/simple.bin';
-import simpleModelFile from '../assets/simple.gltf';
+const simple_bin = require('../assets/simple.bin');
+const simpleModelFile = require('../assets/simple.gltf');
 
-function copyPose(source, target) {
+
+
+function copyPose(
+    source: THREE.Mesh|CANNON.Body, target: THREE.Mesh|CANNON.Body) {
   target.position.x = source.position.x;
   target.position.y = source.position.y;
   target.position.z = source.position.z;
@@ -16,20 +21,22 @@ function copyPose(source, target) {
   target.quaternion.w = source.quaternion.w;
 }
 
-let scene;
+let scene: THREE.Scene;
 scene = new THREE.Scene();
 
-let camera;
+let camera: THREE.Camera;
 
 
 let renderer = new THREE.WebGLRenderer();
-let controls;
+let controls: TrackballControls;
 let plane;
-let model;
-let world;
+let model: THREE.Mesh;
+let world: CANNON.World;
 
 class Sphere {
-  constructor(radius, color = 0xaf0000) {
+  private mesh: THREE.Mesh;
+  private body: CANNON.Body;
+  constructor(radius: number, color = 0xaf0000) {
     const geometry = new THREE.SphereGeometry(radius, 16, 16);
     const material = new THREE.MeshLambertMaterial({color});
     this.mesh = new THREE.Mesh(geometry, material);
@@ -41,16 +48,16 @@ class Sphere {
     this.body.addShape(shape);
     copyPose(this.mesh, this.body);
   }
-  setZ(z) {
+  setZ(z: number) {
     this.mesh.position.z = z;
     this.body.position.z = z;
   }
   update() {
-    this.mesh.position.copy(this.body.position);
-    this.mesh.quaternion.copy(this.body.quaternion);
+    this.mesh.position.copy(this.body.position as any);
+    this.mesh.quaternion.copy(this.body.quaternion as any);
   }
 
-  register(scene, physics) {
+  register(scene: THREE.Scene, physics: CANNON.World) {
     physics.addBody(this.body);
     scene.add(this.mesh);
   }
@@ -113,10 +120,8 @@ function init() {
   }
 
   // Ball
-
   ball.setZ(1);
   ball.register(scene, world);
-
 
   // Loading model
   {
