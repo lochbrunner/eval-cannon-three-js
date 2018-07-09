@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
 
+import simple from '../assets/simple.gltf';
+
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
