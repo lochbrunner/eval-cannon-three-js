@@ -5,13 +5,24 @@ import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
 import TrackballControls from 'three-trackballcontrols';
 
-const simple_bin = require('../assets/simple.bin');
-const simpleModelFile = require('../assets/simple.gltf');
+import simpleModelFile_bin from '../assets/simple.bin';
+import simpleModelFile from '../assets/simple.gltf';
 
 
+interface Pose {
+  position: {x: number, y: number, z: number};
+  quaternion: {x: number, y: number, z: number, w: number};
+}
+class ZeroPose implements Pose {
+  position: {x: number; y: number; z: number;};
+  quaternion: {x: number; y: number; z: number; w: number;};
+  constructor() {
+    this.position = {x: 0, y: 0, z: 0};
+    this.quaternion = {x: 0, y: 0, z: 0, w: 0};
+  }
+}
 
-function copyPose(
-    source: THREE.Mesh|CANNON.Body, target: THREE.Mesh|CANNON.Body) {
+function copyPose(source: Pose, target: Pose) {
   target.position.x = source.position.x;
   target.position.y = source.position.y;
   target.position.z = source.position.z;
@@ -36,6 +47,7 @@ let world: CANNON.World;
 class Sphere {
   private mesh: THREE.Mesh;
   private body: CANNON.Body;
+  private origPose: Pose;
   constructor(radius: number, color = 0xaf0000) {
     const geometry = new THREE.SphereGeometry(radius, 16, 16);
     const material = new THREE.MeshLambertMaterial({color});
@@ -47,10 +59,12 @@ class Sphere {
     const shape = new CANNON.Sphere(radius);
     this.body.addShape(shape);
     copyPose(this.mesh, this.body);
+    this.origPose = new ZeroPose();
+    copyPose(this.body, this.origPose);
   }
   setZ(z: number) {
-    this.mesh.position.z = z;
-    this.body.position.z = z;
+    this.origPose.position.z = z;
+    this.reset();
   }
   update() {
     this.mesh.position.copy(this.body.position as any);
@@ -61,11 +75,19 @@ class Sphere {
     physics.addBody(this.body);
     scene.add(this.mesh);
   }
+  reset() {
+    copyPose(this.origPose, this.body);
+    copyPose(this.origPose, this.mesh);
+  }
 }
 
 const ball = new Sphere(0.3, 0xaf0000);
 
+document.getElementById('reset').onclick = reset;
 
+function reset() {
+  ball.reset();
+}
 
 function init() {
   // init cannon
