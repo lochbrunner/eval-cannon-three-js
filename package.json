@@ -1,0 +1,21 @@
+{
+  "name": "threejs-eval",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Matthias Lochbrunner",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "three": "^0.94.0"
+  }
+}
