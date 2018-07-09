@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import GLTFLoader from 'three-gltf-loader';
 
 const scene = new THREE.Scene();
 
@@ -9,8 +10,14 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const light = new THREE.AmbientLight('0x404040');  // soft white light
-scene.add(light);
+{
+  const light = new THREE.AmbientLight('0x404040');  // soft white light
+  scene.add(light);
+}
+{
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  scene.add(directionalLight);
+}
 
 // Box geometry
 let cube;
@@ -30,6 +37,20 @@ let cube;
   geometry.vertices.push(new THREE.Vector3(1, 0, 0));
   const line = new THREE.Line(geometry, material);
   scene.add(line);
+}
+
+// Loading model
+{
+  const loader = new GLTFLoader();
+  loader.load(
+      './assets/simple.gltf',
+      gltf => {
+        scene.add(gltf.scene);
+      },
+      xhr => {},
+      error => {
+        console.log(`Error while loading model: ${error}`);
+      });
 }
 
 
