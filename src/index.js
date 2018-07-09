@@ -1,7 +1,10 @@
 import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
 
+import simple_bin from '../assets/simple.bin';
 import simple from '../assets/simple.gltf';
+
+console.log(simple);
 
 const scene = new THREE.Scene();
 
@@ -45,7 +48,7 @@ let cube;
 {
   const loader = new GLTFLoader();
   loader.load(
-      './assets/simple.gltf',
+      'assets/simple.gltf',
       gltf => {
         scene.add(gltf.scene);
       },
