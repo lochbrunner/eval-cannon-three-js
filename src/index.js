@@ -4,9 +4,17 @@ import GLTFLoader from 'three-gltf-loader';
 import TrackballControls from 'three-trackballcontrols';
 
 import simple_bin from '../assets/simple.bin';
-import simple from '../assets/simple.gltf';
+import simpleModelFile from '../assets/simple.gltf';
 
-console.log(simple);
+function copyPose(source, target) {
+  target.position.x = source.position.x;
+  target.position.y = source.position.y;
+  target.position.z = source.position.z;
+  target.quaternion.x = source.quaternion.x;
+  target.quaternion.y = source.quaternion.y;
+  target.quaternion.z = source.quaternion.z;
+  target.quaternion.w = source.quaternion.w;
+}
 
 let scene;
 scene = new THREE.Scene();
@@ -17,19 +25,40 @@ let camera;
 let renderer = new THREE.WebGLRenderer();
 let controls;
 let plane;
-let ball = {};
 let model;
 let world;
 
-function copy(source, target) {
-  target.position.x = source.position.x;
-  target.position.y = source.position.y;
-  target.position.z = source.position.z;
-  target.quaternion.x = source.quaternion.x;
-  target.quaternion.y = source.quaternion.y;
-  target.quaternion.z = source.quaternion.z;
-  target.quaternion.w = source.quaternion.w;
+class Sphere {
+  constructor(radius, color = 0xaf0000) {
+    const geometry = new THREE.SphereGeometry(radius, 16, 16);
+    const material = new THREE.MeshLambertMaterial({color});
+    this.mesh = new THREE.Mesh(geometry, material);
+    // this.mesh.translateZ(1);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+    this.body = new CANNON.Body({mass: 1});
+    const shape = new CANNON.Sphere(radius);
+    this.body.addShape(shape);
+    copyPose(this.mesh, this.body);
+  }
+  setZ(z) {
+    this.mesh.position.z = z;
+    this.body.position.z = z;
+  }
+  update() {
+    this.mesh.position.copy(this.body.position);
+    this.mesh.quaternion.copy(this.body.quaternion);
+  }
+
+  register(scene, physics) {
+    physics.addBody(this.body);
+    scene.add(this.mesh);
+  }
 }
+
+const ball = new Sphere(0.3, 0xaf0000);
+
+
 
 function init() {
   // init cannon
@@ -77,34 +106,23 @@ function init() {
     const shape = new CANNON.Plane();
     const body = new CANNON.Body({mass: 0});
 
-    copy(plane, body);
+    copyPose(plane, body);
 
     body.addShape(shape);
     world.addBody(body);
   }
 
   // Ball
-  {
-    const RADIUS = 0.3;
-    const geometry = new THREE.SphereGeometry(RADIUS, 16, 16);
-    const material = new THREE.MeshLambertMaterial({color: 0xaf0000});
-    ball.mesh = new THREE.Mesh(geometry, material);
-    ball.mesh.translateZ(1);
-    ball.mesh.castShadow = true;
-    ball.mesh.receiveShadow = true;
-    ball.body = new CANNON.Body({mass: 1});
-    const shape = new CANNON.Sphere(RADIUS);
-    ball.body.addShape(shape);
-    copy(ball.mesh, ball.body);
-    world.addBody(ball.body);
-    scene.add(ball.mesh);
-  }
+
+  ball.setZ(1);
+  ball.register(scene, world);
+
 
   // Loading model
   {
     const loader = new GLTFLoader();
     loader.load(
-        'assets/simple.gltf',
+        simpleModelFile,
         gltf => {
           model = gltf.scene;
           model.traverse(node => {
@@ -133,8 +151,7 @@ function animate() {
   controls.update();
   const TIMESTEP = 1 / 60;
   world.step(TIMESTEP);
-  ball.mesh.position.copy(ball.body.position);
-  ball.mesh.quaternion.copy(ball.body.quaternion);
+  ball.update();
   renderer.render(scene, camera);
 }
 
