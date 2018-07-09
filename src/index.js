@@ -24,14 +24,6 @@ document.body.appendChild(renderer.domElement);
   scene.add(directionalLight);
 }
 
-// Box geometry
-let cube;
-{
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshStandardMaterial({color: 0x00ff00});
-  cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-}
 
 // Lines
 {
@@ -45,12 +37,14 @@ let cube;
 }
 
 // Loading model
+let model;
 {
   const loader = new GLTFLoader();
   loader.load(
       'assets/simple.gltf',
       gltf => {
         scene.add(gltf.scene);
+        model = gltf.scene;
       },
       xhr => {},
       error => {
@@ -64,8 +58,8 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  model.rotation.x += 0.01;
+  model.rotation.y += 0.01;
   renderer.render(scene, camera);
 }
 

@@ -3,9 +3,9 @@
         {
             "bufferView" : 0,
             "componentType" : 5121,
-            "count" : 186,
+            "count" : 132,
             "max" : [
-                127
+                71
             ],
             "min" : [
                 0
@@ -15,15 +15,15 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 128,
+            "count" : 72,
             "max" : [
-                1.7867074012756348,
                 1.0,
+                1.2000000476837158,
                 1.0
             ],
             "min" : [
                 -1.0,
-                -1.0,
+                -1.2000000476837158,
                 -1.0
             ],
             "type" : "VEC3"
@@ -31,16 +31,16 @@
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 128,
+            "count" : 72,
             "max" : [
-                0.7973219752311707,
-                0.5984236598014832,
-                0.8960400819778442
+                1.0,
+                1.0,
+                1.0
             ],
             "min" : [
-                -0.8383236527442932,
                 -1.0,
-                -0.8952885270118713
+                -1.0,
+                -1.0
             ],
             "type" : "VEC3"
         }
@@ -52,39 +52,54 @@
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 186,
+            "byteLength" : 132,
             "byteOffset" : 0,
             "target" : 34963
         },
         {
             "buffer" : 0,
-            "byteLength" : 1536,
-            "byteOffset" : 188,
+            "byteLength" : 864,
+            "byteOffset" : 132,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 1536,
-            "byteOffset" : 1724,
+            "byteLength" : 864,
+            "byteOffset" : 996,
             "target" : 34962
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 3260,
+            "byteLength" : 1860,
             "uri" : "simple.bin"
+        }
+    ],
+    "materials" : [
+        {
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.6400000190734865,
+                    0.6400000190734865,
+                    0.6400000190734865,
+                    1.0
+                ],
+                "metallicFactor" : 0.0
+            }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cone",
+            "name" : "Cube.001",
             "primitives" : [
                 {
                     "attributes" : {
                         "NORMAL" : 2,
                         "POSITION" : 1
                     },
-                    "indices" : 0
+                    "indices" : 0,
+                    "material" : 0
                 }
             ]
         }
@@ -106,11 +121,11 @@
         },
         {
             "mesh" : 0,
-            "name" : "Cone",
-            "translation" : [
-                0.0,
-                1.0000094175338745,
-                -0.10086632519960403
+            "name" : "Cube",
+            "scale" : [
+                0.30000001192092896,
+                1.0,
+                0.10000000149011612
             ]
         },
         {
