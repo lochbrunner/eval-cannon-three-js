@@ -3,6 +3,7 @@
 import * as CANNON from 'cannon';
 import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
+import mesh2shape from 'three-to-cannon';
 import TrackballControls from 'three-trackballcontrols';
 
 import simpleModelFile_bin from '../assets/simple.bin';
@@ -92,7 +93,7 @@ function reset() {
 function init() {
   // init cannon
   world = new CANNON.World();
-  world.gravity.set(0, -2, 0);
+  world.gravity.set(0, -5, 0);
   world.broadphase = new CANNON.NaiveBroadphase();
   world.solver.iterations = 10
 
@@ -114,6 +115,8 @@ function init() {
   }
   {
     const light = new THREE.DirectionalLight(0xffffff, 0.7);
+    light.position.set(0, 10, -5);
+    light.target.position.set(0, 1, 0);
     light.castShadow = true;
     light.shadow.mapSize.width = 1024;   // default
     light.shadow.mapSize.height = 1024;  // default

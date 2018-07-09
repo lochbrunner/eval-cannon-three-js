@@ -1,5 +1,6 @@
 /// <reference path="./three-gltf-loader.d.ts" />
 /// <reference path="./three-trackballcontrols.d.ts" />
+/// <reference path="./three-to-cannon.d.ts" />
 
 
 declare function require(name: string): any;
