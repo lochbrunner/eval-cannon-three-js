@@ -33,11 +33,7 @@ module.exports = {
       {test: /\.woff2$/, use: 'file-loader'},
       {test: /\.woff$/, use: 'file-loader'},
       {test: /\.eot$/, use: 'file-loader'},
-      {test: /\.svg$/, use: 'file-loader'},
-      {
-        test: /bootstrap[\/\\]dist[\/\\]js[\/\\]umd[\/\\]/,
-        loader: 'imports-loader?jQuery=jquery'
-      },
+      {test: /\.svg$/, use: 'file-loader'}
     ]
   },
   devServer:
