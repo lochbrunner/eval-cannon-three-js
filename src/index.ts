@@ -10,6 +10,8 @@ import simpleModelFile_bin from '../assets/simple.bin';
 import simpleModelFile from '../assets/simple.gltf';
 
 
+require('./index.scss');
+
 interface Pose {
   position: {x: number, y: number, z: number};
   quaternion: {x: number, y: number, z: number, w: number};

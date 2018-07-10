@@ -7,7 +7,16 @@ declare module 'three-gltf-loader' {
           scene: THREE.Mesh,
           traverse: (callback: (node: THREE.Mesh) => void) => void
         }) => void,
-        progress: (xhr: any) => void, onError: (error: any) => void): void;
+        onProgress: (xhr: any) => void, onError: (error: any) => void): void;
+
+    parse(data: any, path: any, onLoad: any, onError: (error: any) => void):
+        void;
+
+    setCrossOrigin(value: any): any;
+
+    setDRACOLoader(dracoLoader: any): any;
+
+    setPath(value: any): any;
   }
   export default GLTFLoader;
 }

@@ -1,0 +1,26 @@
+// @import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+// @import "bootstrap-sprockets";
+// @import "bootstrap";
+
+body {
+    margin: 0;
+}
+
+canvas {
+    width: 100%;
+    height: 100%
+}
+
+#control {
+    position: fixed;
+    /* width: 100px;
+    height: 40px; */
+    background-color: rgb(211, 211, 211);
+    opacity: 0.8;
+    padding: 12px;
+    p {
+
+    }
+    /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+}
